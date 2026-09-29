@@ -1,0 +1,37 @@
+import type { Metadata } from "next";
+import { ClerkProvider } from "@clerk/nextjs";
+import "./globals.css";
+import { AuthProvider } from "@/context/AuthContext";
+import { AnalysisProvider } from "@/context/AnalysisContext";
+
+export const metadata: Metadata = {
+  title: "CampaignPulse | AI-Powered Marketing Waste & Campaign Intelligence",
+  description:
+    "Detect advertising budget leakage, evaluate multi-signal waste risk, isolate statistical anomalies with ML, and forecast conversion potential with grounded AI RAG assistance.",
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <ClerkProvider>
+      <html lang="en">
+        <head>
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+            rel="stylesheet"
+          />
+        </head>
+        <body className="font-sans bg-slate-50 text-slate-900 min-h-screen">
+          <AuthProvider>
+            <AnalysisProvider>{children}</AnalysisProvider>
+          </AuthProvider>
+        </body>
+      </html>
+    </ClerkProvider>
+  );
+}
