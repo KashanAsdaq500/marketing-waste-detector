@@ -14,7 +14,7 @@ from fastapi.middleware.cors import CORSMiddleware
 # PATHS
 # ============================================================
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
+PROJECT_ROOT = Path(__file__).resolve().parent
 
 PROCESSED_DATA_PATH = (
     PROJECT_ROOT / "data" / "processed_campaign_data.csv"
