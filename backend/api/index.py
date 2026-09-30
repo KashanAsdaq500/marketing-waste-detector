@@ -1,24 +1,11 @@
-from fastapi import FastAPI
+from pathlib import Path
+import sys
 
-app = FastAPI()
+BACKEND_ROOT = Path(__file__).resolve().parents[1]
 
-try:
-    from main import app as main_app
-    app = main_app
-    IMPORT_ERROR = None
-except Exception as e:
-    IMPORT_ERROR = f"{type(e).__name__}: {e}"
+if str(BACKEND_ROOT) not in sys.path:
+    sys.path.insert(0, str(BACKEND_ROOT))
 
-@app.get("/api/v1/health")
-def health():
-    if IMPORT_ERROR:
-        return {
-            "status": "error",
-            "service": "Marketing Waste Detector API",
-            "import_error": IMPORT_ERROR
-        }
+from main import app
 
-    return {
-        "status": "healthy",
-        "service": "Marketing Waste Detector API"
-    }
+handler = app
