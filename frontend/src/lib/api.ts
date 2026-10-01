@@ -1,8 +1,6 @@
 import { AnalysisResult, CampaignRecord } from "@/types";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
-
-export async function checkBackendHealth(): Promise<{
+const API_BASE = "/api/backend";export async function checkBackendHealth(): Promise<{
   status: string;
   service: string;
   processed_data_loaded: boolean;
@@ -11,7 +9,7 @@ export async function checkBackendHealth(): Promise<{
   anomaly_model_loaded: boolean;
 }> {
   try {
-    const res = await fetch(`${API_BASE}/api/v1/health`, {
+const res = await fetch(`${API_BASE}/health`,{
       method: "GET",
       cache: "no-store",
     });
@@ -27,7 +25,7 @@ export async function uploadAndAnalyzeCsv(file: File): Promise<AnalysisResult> {
   const formData = new FormData();
   formData.append("file", file);
 
-  const res = await fetch(`${API_BASE}/api/v1/analyze`, {
+  const res = await fetch(`/api/backend/analyze`, {
     method: "POST",
     body: formData,
   });
@@ -61,7 +59,7 @@ export async function fetchCampaigns(risk?: string, limit = 100): Promise<{
   if (risk && risk !== "all") query.append("risk", risk);
   query.append("limit", String(limit));
 
-  const res = await fetch(`${API_BASE}/api/v1/campaigns?${query.toString()}`, {
+  const res = await fetch(`${API_BASE}/campaigns?${query.toString()}`, {
     cache: "no-store",
   });
   if (!res.ok) throw new Error(`Failed to load campaigns: ${res.status}`);
@@ -72,7 +70,7 @@ export async function fetchAnomalies(limit = 20): Promise<{
   count: number;
   anomalies: CampaignRecord[];
 }> {
-  const res = await fetch(`${API_BASE}/api/v1/anomalies?limit=${limit}`, {
+  const res = await fetch(`${API_BASE}/anomalies?limit=${limit}`, {
     cache: "no-store",
   });
   if (!res.ok) throw new Error(`Failed to load anomalies: ${res.status}`);
@@ -80,9 +78,11 @@ export async function fetchAnomalies(limit = 20): Promise<{
 }
 
 export async function fetchCampaignDetail(adId: number): Promise<CampaignRecord> {
-  const res = await fetch(`${API_BASE}/api/v1/campaigns/${adId}`, {
+  const res = await fetch(`${API_BASE}/campaigns/${adId}`, {
     cache: "no-store",
   });
   if (!res.ok) throw new Error(`Campaign ${adId} not found`);
   return await res.json();
 }
+
+
