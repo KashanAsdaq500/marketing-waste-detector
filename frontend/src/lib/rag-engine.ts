@@ -1,4 +1,4 @@
-import { AnalysisResult, RAGKnowledgeSource } from "@/types";
+﻿import { AnalysisResult, RAGKnowledgeSource } from "@/types";
 
 export interface KnowledgeItem {
   id: string;
@@ -9,6 +9,8 @@ export interface KnowledgeItem {
   diagnosticQuestions: string[];
   recommendedActions: string[];
   evidenceInterpretation: string;
+  sourceName?: string;
+  sourceUrl?: string;
 }
 
 export const MARKETING_KNOWLEDGE_BASE: KnowledgeItem[] = [
@@ -16,7 +18,7 @@ export const MARKETING_KNOWLEDGE_BASE: KnowledgeItem[] = [
     id: "ctr",
     topic: "Click-Through Rate (CTR)",
     keywords: ["ctr", "click through", "impressions", "clicks", "creative", "hook", "relevance"],
-    benchmark: "Standard e-commerce / social ad benchmark is 0.8% - 1.5%. Under 0.5% indicates low relevance or creative fatigue.",
+    benchmark: "There is no single universal CTR benchmark; CTR is clicks divided by impressions, and a good CTR depends on what is being advertised and where the ad appears.",
     definition: "CTR = (Clicks / Impressions) * 100. Measures creative appeal and how well the ad hook resonates with the target audience.",
     diagnosticQuestions: [
       "Are audiences seeing the ad without clicking? (Low CTR with high impressions)",
@@ -28,7 +30,9 @@ export const MARKETING_KNOWLEDGE_BASE: KnowledgeItem[] = [
       "Narrow down interest targeting to more affinity-aligned audience segments.",
       "A/B test different call-to-actions (e.g., 'Learn More' vs 'Shop Now')."
     ],
-    evidenceInterpretation: "When an ad exhibits low CTR alongside substantial impressions, spend is burning on audience discovery without generating intent."
+    evidenceInterpretation: "When an ad exhibits low CTR alongside substantial impressions, spend is burning on audience discovery without generating intent.",
+    sourceName: "Google Ads Help — Clickthrough rate (CTR): Definition",
+    sourceUrl: "https://support.google.com/google-ads/answer/2615875?hl=en"
   },
   {
     id: "cpc",
@@ -175,22 +179,47 @@ export const MARKETING_KNOWLEDGE_BASE: KnowledgeItem[] = [
     evidenceInterpretation: "Data shows older cohorts (40-49) may have higher CPC but different conversion volume, while 30-34 may offer cheaper clicks with variable conversion rates."
   },
   {
-    id: "budget_allocation",
-    topic: "Strategic Budget Allocation & 70-20-10 Framework",
-    keywords: ["budget", "budget allocation", "scale", "spend", "reallocation", "capital allocation", "invest"],
-    benchmark: "Follow the 70/20/10 budget allocation model: 70% to proven high-performing low-risk campaigns, 20% to scaling medium-risk tests, 10% to experimental creatives.",
-    definition: "Budget allocation is the systematic distribution of marketing capital toward highest-expected-return segments while capping exposure to unproven assets.",
-    diagnosticQuestions: [
-      "What percentage of current spend is allocated to High Risk campaigns?",
-      "Are top-converting campaigns constrained by insufficient budget limits?",
-      "Could reallocating 20% of wasted spend yield incremental profitable conversions?"
-    ],
+id: "budget_allocation",
+
+topic: "Strategic Budget Allocation & 70-20-10 Framework",
+
+keywords: [
+  "budget",
+  "budget allocation",
+  "70-20-10",
+  "70/20/10",
+  "70 20 10",
+  "framework",
+  "marketing budget",
+  "marketing budgets",
+  "marketing budget allocation",
+  "budget framework",
+  "budget planning",
+  "70 20 10 framework",
+  "70-20-10 framework",
+  "source",
+],
+
+  benchmark:
+    "Industry 70/20/10 framework: approximately 70% for proven activity, 20% for promising opportunities, and 10% for experiments. This is a planning framework, not a universal performance benchmark.",
+
+  definition:
+    "Budget allocation is the systematic distribution of marketing capital toward highest-expected-return segments while capping exposure to unproven assets.",
+
+  diagnosticQuestions: [
+    "What percentage of current spend is allocated to High Risk campaigns?",
+    "Are top-converting campaigns constrained by insufficient budget limits?",
+    "Could reallocating 20% of wasted spend yield incremental profitable conversions?"
+  ],
+
     recommendedActions: [
       "Enforce minimum budget thresholds only for validated High Potential campaigns.",
       "Cut spend on bottom quartile ads and immediately funnel into the top 5 CPA performers.",
-      "Implement gradual budget scaling (15-20% increments every 48-72 hours) to avoid resetting platform learning phase."
+      "Make budget and bid changes deliberately and allow the advertising platform time to recalibrate before judging the result."
     ],
-    evidenceInterpretation: "Eliminating the top 20 high-waste campaigns routinely unlocks 15% to 35% of ad spend with zero drop in gross conversions."
+    evidenceInterpretation: "This project uses budget allocation as a decision framework; actual reallocation should be based on campaign-level evidence rather than a fixed percentage.",
+    sourceName: "eTroPo — The 70/20/10 Rule for Marketing Budgets",
+    sourceUrl: "https://www.etropo.com/marketing-budget-planning-guide/70-20-10-rule"
   },
   {
     id: "conversion_improvement",
@@ -211,6 +240,38 @@ export const MARKETING_KNOWLEDGE_BASE: KnowledgeItem[] = [
     evidenceInterpretation: "Boosting conversion rate directly offsets rising ad auction costs across all advertising channels."
   },
   {
+    id: "campaignpulse_methodology",
+    topic: "CampaignPulse Project Methodology",
+    keywords: [
+      "campaignpulse",
+      "campaign pulse",
+      "project methodology",
+      "campaign methodology",
+      "project architecture",
+      "how the project works",
+      "methodology",
+      "marketing intelligence project"
+    ],
+    benchmark:
+      "CampaignPulse is a project-specific marketing intelligence system that combines campaign analytics, machine learning, and retrieval-augmented knowledge to identify marketing waste and support campaign decisions.",
+    definition:
+      "CampaignPulse analyzes campaign data from conversion.csv through a Next.js frontend and FastAPI backend. It calculates core marketing metrics, applies machine learning models for waste risk, anomaly detection, and conversion potential, and uses a RAG knowledge base to provide grounded marketing explanations and recommendations.",
+    diagnosticQuestions: [
+      "How does CampaignPulse analyze campaign performance?",
+      "Which machine learning models are used in CampaignPulse?",
+      "How does the RAG layer support the marketing assistant?",
+      "How are campaign waste risk, anomalies, and conversion potential identified?"
+    ],
+    recommendedActions: [
+      "Upload or analyze campaign data and review the calculated KPIs such as spend, CPC, CPA, clicks, impressions, and conversions.",
+      "Use the waste-risk model to identify campaigns with inefficient spending.",
+      "Review anomaly detection results for unusual campaign behavior.",
+      "Use conversion prediction results to identify campaigns with stronger conversion potential.",
+      "Use the RAG-powered assistant to interpret marketing metrics and provide grounded recommendations."
+    ],
+    evidenceInterpretation:
+      "CampaignPulse combines deterministic campaign metrics, machine learning predictions, anomaly detection, and RAG-based marketing knowledge. The system is designed to support evidence-based campaign analysis rather than relying on a single metric.",
+  },  {
     id: "performance_interpretation",
     topic: "Holistic Campaign Performance Interpretation",
     keywords: ["performance interpretation", "analysis", "metrics", "dashboard", "kpi", "interpretation", "evaluate"],
@@ -235,29 +296,140 @@ export const MARKETING_KNOWLEDGE_BASE: KnowledgeItem[] = [
 // ------------------------------------------------------------
 
 export function retrieveRelevantKnowledge(query: string, limit = 3): KnowledgeItem[] {
-  const cleanQuery = query.toLowerCase();
-  const queryTokens = cleanQuery.split(/\s+/).filter((t) => t.length > 2);
+  const cleanQuery = query.toLowerCase().trim();
+
+  const queryTokens = cleanQuery
+    .split(/\s+/)
+    .map((token) => token.replace(/[^a-z0-9-]/g, ""))
+    .filter((token) => token.length > 1);
+
+  // Short marketing metrics need exact matching.
+  // This prevents CPA, CTR, CPC, etc. from being confused with
+  // other topics because of generic word overlap.
+  const metricAliases: Record<string, string[]> = {
+    cpa: ["cpa", "cost per acquisition", "cost per action"],
+    cpc: ["cpc", "cost per click"],
+    ctr: ["ctr", "click-through rate", "click through rate"],
+    roas: ["roas", "return on ad spend"],
+    roi: ["roi", "return on investment"],
+    conversion: ["conversion", "conversions", "conversion rate"],
+    impressions: ["impression", "impressions"],
+    clicks: ["click", "clicks"],
+    spend: ["spend", "ad spend", "advertising spend"],
+    waste: ["waste", "wasted spend", "waste risk"],
+  };
+
+  const detectedMetrics = Object.entries(metricAliases)
+    .filter(([, aliases]) =>
+      aliases.some((alias) => cleanQuery.includes(alias))
+    )
+    .map(([metric]) => metric);
+
+  // CampaignPulse methodology questions should only retrieve
+  // project-specific methodology content.
+  const asksForCampaignPulse =
+    cleanQuery.includes("campaignpulse") ||
+    cleanQuery.includes("campaign pulse") ||
+    cleanQuery.includes("project methodology") ||
+    cleanQuery.includes("campaign methodology");
+
+  // General campaign-performance questions should retrieve
+  // holistic performance interpretation instead of a single metric.
+  const asksForPerformanceInterpretation =
+    cleanQuery.includes("campaign performance") ||
+    cleanQuery.includes("overall performance") ||
+    cleanQuery.includes("performance interpretation") ||
+    cleanQuery.includes("interpret my performance") ||
+    cleanQuery.includes("interpret campaign") ||
+    cleanQuery.includes("evaluate campaign performance");
+
 
   const scored = MARKETING_KNOWLEDGE_BASE.map((item) => {
     let score = 0;
-    // Direct topic or keyword hit
-    if (cleanQuery.includes(item.topic.toLowerCase())) score += 10;
+    let directMatch = false;
 
-    for (const kw of item.keywords) {
-      if (cleanQuery.includes(kw)) {
-        score += 5;
-      }
-      for (const token of queryTokens) {
-        if (kw.includes(token)) {
-          score += 2;
-        }
+    // Do not mix external industry sources into an explicit
+    // CampaignPulse methodology question.
+    if (asksForCampaignPulse && item.sourceName) {
+      return { item, score: -1 };
+    }
+
+    // General campaign-performance questions should prioritize
+    // the holistic performance interpretation knowledge item.
+    if (
+      asksForPerformanceInterpretation &&
+      item.id === "performance_interpretation"
+    ) {
+      return { item, score: 100 };
+    }
+
+    if (
+      asksForPerformanceInterpretation &&
+      item.id !== "performance_interpretation"
+    ) {
+      return { item, score: -1 };
+    }
+
+    const topic = item.topic.toLowerCase();
+
+    // Exact topic match.
+    if (cleanQuery.includes(topic)) {
+      score += 20;
+      directMatch = true;
+    }
+
+    const itemKeywords = item.keywords.map((kw) => kw.toLowerCase().trim());
+
+    // Exact keyword / phrase match.
+    for (const keyword of itemKeywords) {
+      if (keyword.length > 2 && cleanQuery.includes(keyword)) {
+        score += 10;
+        directMatch = true;
       }
     }
 
-    // Check definition and actions for keyword presence
-    for (const token of queryTokens) {
-      if (item.definition.toLowerCase().includes(token)) score += 1;
-      if (item.benchmark.toLowerCase().includes(token)) score += 1;
+    // Strong metric-specific matching.
+    for (const metric of detectedMetrics) {
+      const aliases = metricAliases[metric];
+
+      const itemContainsMetric = aliases.some(
+        (alias) =>
+          topic.includes(alias) ||
+          itemKeywords.some((keyword) => keyword.includes(alias))
+      );
+
+      if (itemContainsMetric) {
+        score += 50;
+        directMatch = true;
+      } else {
+        // If the user explicitly asks about one metric,
+        // unrelated metric knowledge should be heavily penalized.
+        score -= 20;
+      }
+    }
+
+    // Only perform broader token matching after a direct match.
+    if (directMatch) {
+      for (const keyword of itemKeywords) {
+        for (const token of queryTokens) {
+          if (token.length > 3 && keyword.includes(token)) {
+            score += 1;
+          }
+        }
+      }
+
+      const definition = item.definition.toLowerCase();
+      const benchmark = item.benchmark.toLowerCase();
+
+      for (const token of queryTokens) {
+        if (token.length > 3 && definition.includes(token)) {
+          score += 1;
+        }
+
+        if (token.length > 3 && benchmark.includes(token)) {
+          score += 1;
+        }
+      }
     }
 
     return { item, score };
@@ -265,14 +437,14 @@ export function retrieveRelevantKnowledge(query: string, limit = 3): KnowledgeIt
 
   scored.sort((a, b) => b.score - a.score);
 
-  // Return top items or fallback to top general topics
-  const results = scored.filter((s) => s.score > 0).slice(0, limit).map((s) => s.item);
-  if (results.length === 0) {
-    return [MARKETING_KNOWLEDGE_BASE[4], MARKETING_KNOWLEDGE_BASE[0], MARKETING_KNOWLEDGE_BASE[2]]; // waste, ctr, cpa
-  }
+  // Only return genuinely relevant sources.
+  const results = scored
+    .filter((entry) => entry.score >= 5)
+    .slice(0, limit)
+    .map((entry) => entry.item);
+
   return results;
 }
-
 export function generateAssistantResponse(
   userQuery: string,
   analysisData?: AnalysisResult | null
@@ -290,9 +462,11 @@ export function generateAssistantResponse(
   const retrievedItems = retrieveRelevantKnowledge(userQuery, 3);
   const ragSources: RAGKnowledgeSource[] = retrievedItems.map((item) => ({
     title: item.topic,
-    category: "Verified Marketing Knowledge Base",
+    category: item.sourceName ? "External / Industry Source" : "CampaignPulse Project Methodology",
     keyRule: item.definition,
     benchmark: item.benchmark,
+    sourceName: item.sourceName,
+    sourceUrl: item.sourceUrl,
   }));
 
   const hasAnalysis = Boolean(analysisData && analysisData.summary);
@@ -458,7 +632,68 @@ ${
 - Filter campaigns by **"High Potential"** in the Campaigns tab and ensure these top-performing units are not budget-capped.`;
   }
 
-  // 6. "What does CTR mean?" / Metric definitions
+  // 6. "How should I interpret my campaign performance?"
+  else if (
+    queryLower.includes("campaign performance") ||
+    queryLower.includes("overall performance") ||
+    queryLower.includes("interpret my performance") ||
+    queryLower.includes("interpret campaign") ||
+    queryLower.includes("evaluate campaign performance") ||
+    queryLower.includes("performance interpretation")
+  ) {
+    responseBody = `### Holistic Campaign Performance Interpretation
+
+Campaign performance should be interpreted across the full marketing funnel rather than through a single metric:
+
+**Reach → Engagement (CTR) → Acquisition (CPC) → Outcome (CPA, CVR)**
+
+#### How to Read Your Campaign Performance
+
+1. **Reach — Impressions**
+   - Impressions show how much exposure your campaigns are receiving.
+   - High impressions with very few clicks can indicate weak engagement or audience/creative mismatch.
+
+2. **Engagement — CTR**
+   - CTR shows how often people click after seeing an ad.
+   - A low CTR can point to issues with the creative, message, offer, placement, or audience targeting.
+
+3. **Acquisition — CPC**
+   - CPC shows how much you are paying for each click.
+   - A high CPC can reduce efficiency even when CTR is healthy.
+
+4. **Outcome — CPA and Conversion Rate**
+   - CPA connects advertising spend with approved conversions.
+   - A campaign can have strong CTR and CPC but still perform poorly if visitors do not convert.
+   - Conversion Rate (CVR) helps identify this post-click funnel problem.
+
+${
+  hasAnalysis
+    ? `#### Your Current Campaign Snapshot:
+* **Total Campaigns:** **${summary?.total_campaigns}
+* **Total Spend:** **$${summary?.total_spend?.toFixed(2)}
+* **Total Impressions:** **${summary?.total_impressions?.toLocaleString()}
+* **Total Clicks:** **${summary?.total_clicks?.toLocaleString()}
+* **Average CPC:** **$${summary?.average_cpc?.toFixed(2)}
+* **Average CPA:** **$${summary?.average_cpa?.toFixed(2)}
+* **High Risk Campaigns:** **${summary?.risk_distribution["High Risk"] ?? 0}
+* **Detected Anomalies:** **${summary?.anomalies_detected ?? 0}`
+    : `*(Upload or analyze a campaign CSV to view your actual campaign performance measurements.)*`
+}
+
+#### What to Investigate
+
+- If **impressions are high but CTR is low**, investigate creative quality and audience relevance.
+- If **CTR is healthy but CPC is high**, investigate bidding and audience competition.
+- If **CPC is reasonable but CPA is high**, investigate the conversion funnel and landing-page experience.
+- If a campaign has unusual metrics, review the **anomaly detection** results before making changes.
+- Compare **waste risk and conversion potential** together so that high-spend campaigns are not evaluated using only one metric.
+
+#### CampaignPulse Methodology
+
+CampaignPulse combines calculated campaign KPIs, machine-learning waste-risk detection, anomaly detection, conversion-potential prediction, and RAG-based marketing knowledge to provide a broader view of campaign performance.`;
+  }
+
+  // 7. "What does CTR mean?" / Metric definitions
   else if (queryLower.includes("ctr") && (queryLower.includes("mean") || queryLower.includes("what is") || queryLower.includes("definition"))) {
     responseBody = `### Definition: Click-Through Rate (CTR)
 
@@ -467,10 +702,8 @@ ${
 $$\\text{CTR} = \\left( \\frac{\\text{Total Clicks}}{\\text{Total Impressions}} \\right) \\times 100\\%$$
 
 #### Industry Benchmarks:
-* **Below 0.5%:** Substandard. Indicates poor creative hook, audience mismatch, or severe ad fatigue.
-* **0.8% - 1.5%:** Standard benchmark for social feed advertising.
-* **Above 2.0%:** Strong performance. The ad creative and copy resonate deeply with the targeted demographic.
 
+There is no single universal CTR benchmark. CTR should be interpreted in the context of the advertising platform, campaign objective, placement, audience, and the account's historical performance.
 ${
   hasAnalysis
     ? `#### Your Account Measurements:
@@ -495,7 +728,7 @@ Regarding **${primaryTopic.topic}**:
 
 ${primaryTopic.definition}
 
-* **Standard Industry Benchmark:** ${primaryTopic.benchmark}
+* **Reference / Benchmark:** ${primaryTopic.benchmark}
 * **Diagnostic Focus:** ${primaryTopic.diagnosticQuestions.join(" ")}
 
 ${
@@ -521,3 +754,9 @@ ${primaryTopic.evidenceInterpretation}`;
     campaignMetricsReferenced,
   };
 }
+
+
+
+
+
+

@@ -1,6 +1,15 @@
 export type WasteRiskLevel = "Low Risk" | "Medium Risk" | "High Risk";
-export type ConversionPotentialLevel = "High Potential" | "Medium Potential" | "Low Potential";
-export type EvidenceStrength = "Strong" | "Moderate" | "Weak" | "Insufficient Data";
+
+export type ConversionPotentialLevel =
+  | "High Potential"
+  | "Medium Potential"
+  | "Low Potential";
+
+export type EvidenceStrength =
+  | "Strong"
+  | "Moderate"
+  | "Weak"
+  | "Insufficient Data";
 
 export interface CampaignRecord {
   ad_id: number;
@@ -91,6 +100,8 @@ export interface RAGKnowledgeSource {
   category: string;
   keyRule: string;
   benchmark?: string;
+  sourceName?: string;
+  sourceUrl?: string;
 }
 
 export interface AssistantMessage {
